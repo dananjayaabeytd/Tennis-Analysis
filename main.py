@@ -5,7 +5,7 @@ from utils import (
     read_video,
     save_video
     )
-
+from court_line_detector import CourtLineDetector
 
 # Set environment variable to avoid OpenMP error
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -33,11 +33,21 @@ def main():
                                                 stub_path="tracker_stubs/ball_detections.pkl"
                                                 )
                   
+    
+    #Court Line Detection
+    court_model_path = "models/keypoints_model.pth"
+    court_line_detector = CourtLineDetector(court_model_path)
+    court_keypoints = court_line_detector.predict(video_frames[0])
+    
                   
     # Draw Output
+    
     # Draw Player bounding boxes
     output_video_frames = player_tracker.draw_bboxes(video_frames, player_detections)                                                
     output_video_frames = ball_tracker.draw_bboxes(video_frames, ball_detections)                                                
+    
+    # Draw court keypoints
+    output_video_frames = court_line_detector.draw_keypoints_on_video(output_video_frames, court_keypoints)
     
     save_video(video_frames, "output_videos/output_video.avi")
     

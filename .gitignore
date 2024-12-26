@@ -2,3 +2,4 @@ yolov8x.pt
 yolov5l6u.pt
 yolo5_best.pt
 yolo5_last.pt
+keypoints_model.pth
