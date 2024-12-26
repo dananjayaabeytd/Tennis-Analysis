@@ -16,7 +16,6 @@ def main():
     input_video_path = "input_videos/input_video.mp4"
     video_frames = read_video(input_video_path)
     
-    
     # Detect players and ball
     player_tracker = PlayerTracker(model_path="yolov8x")
     ball_tracker = BallTracker(model_path="models/yolo5_last.pt")
@@ -33,6 +32,8 @@ def main():
                                                 stub_path="tracker_stubs/ball_detections.pkl"
                                                 )
                   
+    # Interpolate Ball Positions              
+    ball_detections = ball_tracker.interpolate_ball_positions(ball_detections)
     
     #Court Line Detection
     court_model_path = "models/keypoints_model.pth"
